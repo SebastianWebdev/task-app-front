@@ -1,0 +1,44 @@
+.reg-log-wrapper {
+    height: 88vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: rgb(36, 34, 34)
+}
+
+.log-form {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.log-form input {
+    height: 40px;
+    width: 30vw;
+    border-radius: 3px;
+    border: 1px solid rgb(189, 189, 189);
+    font-size: 1.6rem;
+    color: rgb(104, 104, 104);
+    margin-bottom: 20px;
+    background-color: rgb(240, 240, 240);
+}
+
+.log-form label {
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: rgb(82, 82, 82);
+}
+
+.reg-sub {
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 3px;
+    background-color: rgb(219, 219, 219);
+    color: rgb(82, 82, 82);
+    font-size: 1.8rem;
+    cursor: pointer;
+}
