@@ -1,7 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Login from '../components/Login'
+import Nav from '../layouts/Nav'
 const LoginPage = (props) => {
+    const location = "login"
     return (
-        <p>Login page</p>
+        <>
+            <Nav where={location}></Nav>
+            <Login props={props} />
+        </>
+        // !props.isRegistrationDone ? <Login props={props} /> : <NextReg />
     )
 }
 export default LoginPage

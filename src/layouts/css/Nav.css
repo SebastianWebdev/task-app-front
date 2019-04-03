@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 5vw;
+    height: 8vh;
     background-color: rgb(29, 117, 168);
     position: fixed;
     top: 0;
@@ -10,6 +10,10 @@
     width: 100%;
     z-index: 2;
     box-shadow: 0px 10px 40px 5px rgba(38, 127, 179, 0.137);
+}
+
+.nav.nav1 {
+    height: 10vh;
 }
 
 .buttons {

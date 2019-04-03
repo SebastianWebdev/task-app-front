@@ -3,8 +3,8 @@
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
-    height: calc(100vh - 5vw);
-    margin-top: 5vw;
+    height: 90vh;
+    margin-top: 10vh;
 }
 
 .intro {

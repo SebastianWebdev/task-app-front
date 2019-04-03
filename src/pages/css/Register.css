@@ -26,6 +26,11 @@
     background-color: rgb(240, 240, 240);
 }
 
+#rememberMe {
+    height: 18px;
+    width: 18px;
+}
+
 .log-form label {
     font-size: 1.8rem;
     font-weight: 300;
@@ -41,4 +46,13 @@
     color: rgb(82, 82, 82);
     font-size: 1.8rem;
     cursor: pointer;
+}
+
+.postreg-link {
+    font-size: 1.5rem;
+    transition: 200ms
+}
+
+.postreg-link:hover {
+    transform: scale(1.01)
 }

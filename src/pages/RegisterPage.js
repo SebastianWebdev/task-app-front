@@ -1,19 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './css/Register.css'
+import Register from "../components/Reg"
+import NextReg from "../components/NextReg"
+import Nav from "../layouts/Nav"
 const RegisterPage = (props) => {
+    const location = "reg"
     return (
-        <div className="reg-log-wrapper">
-            <h1>Stwórz Konto</h1>
-            <form className="log-form" onSubmit={props.onSub}  >
-                <label htmlFor="reg-name">Nazwa</label>
-                <input onChange={props.handler} name="name" value={props.regValues.name} id="reg-name" placeholder="Podaj swoje imię i nazwisko" type="text" />
-                <label htmlFor="reg-mail">Email</label>
-                <input onChange={props.handler} name="email" value={props.regValues.email} id="reg-mail" placeholder="Podaj email" type="email" />
-                <label htmlFor="reg-pass">Hasło</label>
-                <input onChange={props.handler} name="pass" value={props.regValues.pass} id="reg-pass" placeholder="hasło" type="password" />
-                <button type="submit" className="reg-sub">Stwórz nowe konto</button>
-            </form>
-        </div>
+        <>
+            <Nav where={location}></Nav>
+            {!props.isRegistrationDone ? <Register props={props} /> : <NextReg />}
+        </>
     )
 }
 export default RegisterPage

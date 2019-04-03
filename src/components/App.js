@@ -1,51 +1,103 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import './components Css/App.css';
-//import Login from './Login'
+
 import Footer from '../layouts/Footer'
 
 import HomePage from '../pages/WelcomePage'
-import LoginPage from '../pages/LoginPage'
-import RegisterPage from '../pages/RegisterPage'
+
+import Main from '../pages/Main'
 
 class App extends Component {
   state = {
-    version: 1,
-    regValue: {
+    version: 1, // usunąć
+    regValue: {   //zmienić nazwę na formData
       name: "",
       email: "",
       pass: "",
-    }
+    },
+    rememberMe: false,
 
+    isRegistrationDone: false,//zmianieć nazwę na is validate
+    isLogin: false,
   };
   onSub = (e) => {
     e.preventDefault()
-    console.log(e);
-    const { name, email, pass } = this.state.regValue
-    const body = {
-      name,
-      email,
-      password: pass
+    //console.log(e.target.id);
+    const { name, email, pass, } = this.state.regValue
+    const { rememberMe } = this.state
+
+    if (e.target.id === 'reg') {
+
+
+      const body = {
+        name,
+        email,
+        password: pass
+      }
+      const url = "https://sebastian-webdev-task-app.herokuapp.com/users";
+      fetch(url, {
+        method: 'post',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body)
+      }).then(res => {
+        if (!res.ok) {
+          throw new Error(res.status)
+        }
+        return res.json()
+      }
+
+      ).then(res => {
+        this.setState({
+          isRegistrationDone: true
+        })
+
+      }).catch(e => {
+        console.log(e);
+      })
+    } else if (e.target.id === "login") {
+      const body = {
+        email,
+        password: pass
+      }
+      const url = "https://sebastian-webdev-task-app.herokuapp.com/users/login";
+      fetch(url, {
+        method: 'post',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body)
+      }).then(res => {
+        if (!res.ok) {
+          throw new Error(res.status)
+        }
+        return res.json()
+      }
+
+      ).then(res => {
+        console.log(res.user);
+        this.setState({
+          //isRegistrationDone: true,
+          isLogin: true
+        })
+        if (!rememberMe) {
+          sessionStorage.setItem('accessToken', res.token)
+
+        } else {
+          localStorage.setItem('accessToken', res.token)
+        }
+        const user = res.user
+
+
+        sessionStorage.setItem('user', JSON.stringify(user))
+        window.history.pushState({}, 'main', '/')
+
+      }).catch(e => {
+        console.log(e);
+      })
     }
-    console.log(JSON.stringify(body));
-
-    const url = "https://sebastian-webdev-task-app.herokuapp.com/users";
-    fetch(url, {
-      method: 'post',
-      headers: {
-        "Content-Type": "application/json",
-
-      },
-      body: JSON.stringify(body)
-    }).then(res => {
-      res.json()
-    }).then(data => {
-      console.log(data);
-
-    }).catch(e => {
-      console.log(e);
-
-    })
   }
   onChange = (e) => {
     const value = e.target.value
@@ -80,29 +132,59 @@ class App extends Component {
         }))
 
         break;
-
-      default:
+      case "rememberMe":
+        this.setState(prev => ({
+          rememberMe: !prev.rememberMe
+        }))
         break;
+      default:
+
     }
 
   }
+  componentWillMount() {
+    const token = localStorage.getItem('accessToken')
+    if (token) {
+      const url = "https://sebastian-webdev-task-app.herokuapp.com/users/me";
+      fetch(url, {
+        method: 'get',
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer ' + token
+        },
+      }).then(res => {
+        if (!res.ok) {
+          throw new Error(res.status)
+        }
+        return res.json()
+      }
+
+      ).then(res => {
+
+        sessionStorage.setItem('user', JSON.stringify(res))
+        this.setState({
+          isLogin: true
+        })
+
+      }).catch(e => {
+        console.log(e);
+      })
+    }
+  }
+
   render() {
-    //const { version } = this.state
+    const { isRegistrationDone } = this.state
     //const { nameValue, emailValue, passValue } = this.state.regValue
     const regValues = this.state.regValue
     return (
       <>
-        <Router>
-          <div className="app-wrapper">
 
-            <Switch>
-              <Route path="/" exact render={(props) => <HomePage {...props} regValues={regValues} />} />
-              <Route path="/login" component={LoginPage} />
-              <Route path="/register" render={(props) => <RegisterPage {...props} regValues={regValues} handler={this.onChange} onSub={this.onSub} />} />
-            </Switch>
-          </div>
-        </Router>
-        <Footer />
+        <div className="app-wrapper">
+          {this.state.isLogin ? <Main /> : <HomePage regValues={regValues} isRegistrationDone={isRegistrationDone} onChange={this.onChange} onSub={this.onSub} />}
+          <Footer />
+        </div>
+
+
       </>
     );
   }

@@ -1,45 +1,26 @@
 import './css/Welcome.css';
 import React, { Component } from 'react';
 import Nav from '../layouts/Nav'
+import Welcome from '../layouts/Welcome'
+import LoginPage from '../pages/LoginPage'
+import RegisterPage from '../pages/RegisterPage'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 class HomePage extends Component {
     state = {}
     render() {
+        const { regValues, isRegistrationDone } = this.props
         return (
-            <>
-                <Nav />
-                <main className="welcome-page">
-                    <section className="intro">
-                        <h2 className="section-tittle">Poznaj Task Manager</h2>
-                        <p className="section-describe"> Task Manager to aplikacją służąca do tworzenia list zadań.
-                            Jest to projekt zrealizowany za pomocą Node.js, MongoDB oraz React w ramach nauki tych technologii. Nie jest to komercyjna aplikacja, lecz na potrzeby prezentacji, możesz utworzyć konto użytkownika i tworzyć swoje własne listy zadań.
-                    </p>
-                    </section>
-                    <section className="technology">
-                        <h2 className="section-tittle">Użyte technologie</h2>
-                        <div className="tech-wrap">
-                            <div className="tech-card"> <h2 className="card-tittle">MongoDB</h2>
-                                <p className="card-desc">
-                                    Aplikacja używa nierelacyjnej bazy danych MongoDB, gdzie przechowywane są zadania, listy zadań oraz użytkownicy.
-                                Pracując z bazą danych wykorzystywałem <a href="https://mongoosejs.com/">Mongoose</a>. Baza danych została postawiona na <a href="https://www.mongodb.com/cloud/atlas">MongoDB Atlas</a>
-                                </p>
-                                <div className="card-icon-wrap"><i class="fas fa-database"></i></div>
-
-                            </div>
-                            <div className="tech-card"><h2 className="card-tittle">React</h2>
-                                <p className="card-desc">
-                                    Cały front Aplikacji powstał przy użyciu biblioteki React.js.
-                                    Front został stworzony jako Single Page Application, oraz zgodnie z wytycznymi responsive web design.
-                            </p>
-                                <div className="card-icon-wrap"><i class="fab fa-react"></i></div></div>
-                            <div className="tech-card"><h2 className="card-tittle">Node.js</h2>
-                                <p className="card-desc">
-                                    Strona backendowa stworzona została przy użyciu Node.js oraz frameworku <a href="http://expressjs.com/">express</a>, pozwoliło mi to na utworzenie REST API. Serwer został umieszczony na platformie <a href="https://www.heroku.com/">Heroku</a> Link do kodu na <a href="https://github.com/SebastianWebdev/node.js-Task-app">Github</a>
-                                </p>
-                                <div className="card-icon-wrap"><i class="fab fa-node-js"></i></div></div></div>
-                    </section>
-                </main>
-            </>
+            <Router>
+                <>
+                    <Nav isMain={true} />
+                    <Switch>
+                        <Route exact path="/" component={Welcome} />
+                        <Route path="/login" render={(props) => <LoginPage {...props} regValues={regValues} handler={this.props.onChange} onSub={this.props.onSub} isRegistrationDone={isRegistrationDone} />} />
+                        <Route path="/register" render={(props) => <RegisterPage {...props} regValues={regValues} handler={this.props.onChange} onSub={this.props.onSub} isRegistrationDone={isRegistrationDone} />} />
+                    </Switch>
+                </>
+            </Router>
         );
     }
 }
