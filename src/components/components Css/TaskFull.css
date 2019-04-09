@@ -1,0 +1,15 @@
+.taskFull-wrapp {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.task-imput {
+    width: 100%;
+    border: none;
+}

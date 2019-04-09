@@ -8,5 +8,41 @@
     width: 30vw;
     flex-direction: column;
     color: rgb(29, 28, 28);
-    justify-content: flex-start
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-left: 8%;
+
+}
+
+.fa-list {
+    margin-right: 15px;
+}
+
+.list-item,
+.nav-user {
+    /*border: 1px solid black;*/
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+
+}
+
+.nav-user {
+    margin-top: 20px;
+}
+
+.btn-rec {
+    width: 40px;
+    height: 40px;
+    font-size: 3.6rem;
+    font-weight: 100;
+    line-height: 40px;
+    background-color: transparent;
+    border: 1px solid rgb(172, 172, 172);
+    color: rgb(172, 172, 172);
+    border-radius: 3px;
+    align-self: center;
 }

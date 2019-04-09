@@ -77,11 +77,8 @@ class App extends Component {
       }
 
       ).then(res => {
-        console.log(res.user);
-        this.setState({
-          //isRegistrationDone: true,
-          isLogin: true
-        })
+        // console.log(res.user);
+
         if (!rememberMe) {
           sessionStorage.setItem('accessToken', res.token)
 
@@ -89,9 +86,11 @@ class App extends Component {
           localStorage.setItem('accessToken', res.token)
         }
         const user = res.user
-
-
         sessionStorage.setItem('user', JSON.stringify(user))
+        this.setState({
+
+          isLogin: true
+        })
         window.history.pushState({}, 'main', '/')
 
       }).catch(e => {
@@ -144,7 +143,13 @@ class App extends Component {
   }
   componentWillMount() {
     const token = localStorage.getItem('accessToken')
-    if (token) {
+    const user = sessionStorage.getItem('user')
+
+    if (user) {
+      this.setState({
+        isLogin: true
+      })
+    } else if (token) {
       const url = "https://sebastian-webdev-task-app.herokuapp.com/users/me";
       fetch(url, {
         method: 'get',
