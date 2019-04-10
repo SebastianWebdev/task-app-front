@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+//import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import './components Css/App.css';
 
 import Footer from '../layouts/Footer'
@@ -7,7 +7,6 @@ import Footer from '../layouts/Footer'
 import HomePage from '../pages/WelcomePage'
 
 import Main from '../pages/Main'
-
 class App extends Component {
   state = {
     version: 1, // usunąć
