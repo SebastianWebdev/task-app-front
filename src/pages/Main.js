@@ -11,7 +11,6 @@ class Main extends Component {
         activeList_id: ''
     }
     user = JSON.parse(sessionStorage.user)
-
     token = sessionStorage.accessToken ? sessionStorage.accessToken : localStorage.accessToken
     componentWillMount() {
         const listsURL = "https://sebastian-webdev-task-app.herokuapp.com/lists"
@@ -42,16 +41,16 @@ class Main extends Component {
 
     }
     render() {
-
+        const { isReady, data } = this.props
         const { activeList } = this.state
 
         return (
             <Router>
-                {this.state.isLoaded ?
+                {isReady ?
                     <div className="main-wraper">
-                        <NavMain lists={this.lists} userName={this.user.name} handler={this.navItemHandler} />
+                        <NavMain lists={data.lists} userName={data.user.name} handler={this.navItemHandler} />
                         <Switch>
-                            {activeList ? <Route path="/list" render={(props) => <List {...props} activeList={activeList} lists={this.lists} />} /> : <EmptyList />}
+                            {activeList ? <Route path="/list" render={(props) => <List {...props} activeList={activeList} lists={data.lists} />} /> : <EmptyList />}
                         </Switch>
 
                     </div> : null}

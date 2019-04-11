@@ -3,7 +3,6 @@ const customFetch = async (url = "", options = {}) => {
         //console.log(options);
 
         console.log(url, 'url z custom fetch');
-
         const fet = await fetch(url, options)
         if (fet.ok) {
             const res = await fet.json()

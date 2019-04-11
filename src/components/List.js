@@ -18,27 +18,7 @@ class List extends Component {
     tasks = []
 
     activeList = []
-    getTasks = async (url, options = {
-        method: 'get',
-        headers: {
-            "Content-Type": "application/json",
-            'Authorization': ""
-        },
-    }) => {
-        // console.log(this.state.activeList);
-        const list_id = this.activeList._id
-        const urlWithId = url + list_id
-        const token = sessionStorage.accessToken ? sessionStorage.accessToken : localStorage.accessToken
-        const authOption = 'Bearer ' + token
-        if (!options.headers.Authorization) {
-            options.headers.Authorization = authOption
-        }
 
-        const res = await customFetch(urlWithId, options)
-        //console.log(res, 'res z get tasks');
-
-        return res
-    }
     stageHandler = (e) => {
         //e.persist()
         console.log(e, "event z stage");
