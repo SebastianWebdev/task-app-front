@@ -141,6 +141,7 @@ class App extends Component {
 
   }
   componentWillMount() {
+
     const token = localStorage.getItem('accessToken')
     const user = sessionStorage.getItem('user')
 
@@ -175,8 +176,12 @@ class App extends Component {
       })
     }
   }
-
+  componentDidMount() {
+  }
   render() {
+
+
+
     const { isRegistrationDone } = this.state
     //const { nameValue, emailValue, passValue } = this.state.regValue
     const regValues = this.state.regValue

@@ -2,6 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
+//import Worker from 'worker-loader!./Worker.js';
+
+
+//const dataWorker = new SharedWorker('./web-workers/dataManagWorker.js');
+
 
 
 ReactDOM.render(<App />, document.getElementById('root'));
