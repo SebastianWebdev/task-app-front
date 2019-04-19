@@ -2,14 +2,18 @@
     position: absolute;
     top: 0;
     left: 0;
-    height: 100%;
+    height: 90%;
     width: 100%;
     background-color: #fff;
     display: flex;
     flex-direction: column;
 }
 
+.input-disp {
+    outline: none;
+    border: none;
+}
+
 .task-imput {
     width: 100%;
-    border: none;
 }

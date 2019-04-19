@@ -1,8 +1,8 @@
 import './css/Nav.css'
-import React from 'react'
+import React from '../../node_modules/react'
 import {
     NavLink
-} from 'react-router-dom'
+} from '../../node_modules/react-router-dom'
 const Nav = (props) => {
 
     return (

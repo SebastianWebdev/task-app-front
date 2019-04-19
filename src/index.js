@@ -7,7 +7,9 @@ import App from './components/App';
 
 //const dataWorker = new SharedWorker('./web-workers/dataManagWorker.js');
 
-
+window.addEventListener('drop', (e) => {
+    e.preventDefault()
+})
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '../../node_modules/react';
 import './css/Register.css'
 import Register from "../components/Reg"
 import NextReg from "../components/NextReg"

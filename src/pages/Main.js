@@ -2,55 +2,26 @@ import React, { Component } from 'react';
 import './css/Main..css'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import NavMain from "../layouts/NavMain"
-import List from '../components/List'
+import ListHooks from '../components/ListHooks'
 import EmptyList from '../components/EmptyList'
+import User from '../components/User'
 class Main extends Component {
     state = {
         isLoaded: false,
-        activeList: '',
-        activeList_id: ''
     }
-    user = JSON.parse(sessionStorage.user)
-    token = sessionStorage.accessToken ? sessionStorage.accessToken : localStorage.accessToken
-    componentWillMount() {
-        const listsURL = "https://sebastian-webdev-task-app.herokuapp.com/lists"
-        fetch(listsURL, {
-            method: 'get',
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': 'Bearer ' + this.token
-            }
-        }).then(res => {
-            //console.log(res);
-            return res.json()
-        }).then(res => {
-            //console.log(res);
-            this.lists = res
-            //console.log(this.lists);
-            this.setState({
-                isLoaded: true
-            })
-        })
-    }
-    navItemHandler = (e) => {
-        //console.log(e.currentTarget.id);
-        const activeList = e.currentTarget.id;
-        this.setState({
-            activeList
-        })
+    user = { ...this.props.data.user }
 
-    }
     render() {
-        const { isReady, data } = this.props
-        const { activeList } = this.state
+        const { isReady, data, activeTask, activeTaskInputs, handlers, activeListInputs, activeListName, activeList, activeListId, isUserEddited, userInputs, token, isListEddited } = this.props
 
         return (
             <Router>
                 {isReady ?
                     <div className="main-wraper">
-                        <NavMain lists={data.lists} userName={data.user.name} handler={this.navItemHandler} />
+                        <NavMain lists={data.lists} userName={data.user.name} handler={handlers.setActiveList} addListHandler={handlers.addListHandler} />
                         <Switch>
-                            {activeList ? <Route path="/list" render={(props) => <List {...props} activeList={activeList} lists={data.lists} />} /> : <EmptyList />}
+                            <Route path="/list" render={(props) => (activeListId ? <ListHooks {...props} activeListInputs={activeListInputs} handlers={handlers} activeListName={activeListName} lists={data.lists} activeTask={activeTask} activeList={activeList} activeTaskInputs={activeTaskInputs} isListEddited={isListEddited} /> : <EmptyList />)} />
+                            <Route path='/user' render={(props) => <User {...props} user={data.user} handlers={handlers} userInputs={userInputs} isUserEddited={isUserEddited} token={token} />} />
                         </Switch>
 
                     </div> : null}

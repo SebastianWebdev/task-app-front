@@ -45,4 +45,5 @@
     color: rgb(172, 172, 172);
     border-radius: 3px;
     align-self: center;
+    cursor: pointer;
 }

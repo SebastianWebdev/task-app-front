@@ -1,10 +1,10 @@
 import './css/Welcome.css';
-import React, { Component } from 'react';
+import React, { Component } from '../../node_modules/react';
 import Nav from '../layouts/Nav'
 import Welcome from '../layouts/Welcome'
-import LoginPage from '../pages/LoginPage'
-import RegisterPage from '../pages/RegisterPage'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import LoginPage from './LoginPage'
+import RegisterPage from './RegisterPage'
+import { BrowserRouter as Router, Switch, Route } from '../../node_modules/react-router-dom'
 
 class HomePage extends Component {
     state = {}

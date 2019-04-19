@@ -32,3 +32,21 @@ body {
 .welcome-page section {
   padding: 0 40px;
 }
+
+.save-btn {
+  border: none;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  font-weight: 300;
+  padding: 8px;
+  background-color: rgb(29, 117, 168);
+  border-radius: 4px;
+  color: white;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.save-btn:hover {
+  box-shadow: 0px 10px 20px 0px rgb(235, 235, 235);
+  transform: scale(1.01)
+}
