@@ -3,17 +3,16 @@ import './components Css/AddAvatar.css'
 import handleDroppedFiles from '../functions/handleDroppedFiles'
 import previevFiles from '../functions/previevFile'
 import PrevImg from './PrevImg'
-import copyData from '../functions/copyData'
+
+import checkAvatar from '../functions/checkAvatar'
 const AddAvatar = (props) => {
-    const { userId, setAvatar, closeAvatar } = props
+    const { setAvatar, closeAvatar } = props
     const [droppedFile, setDroppedFile] = useState()
+    const [isclicked, setIsclicked] = useState(false)
     const [isFile, setIsFile] = useState(false)
     const [prevurl, setPrevUrl] = useState([])
     const [isUploaded, setIsUploaded] = useState(false)
-    const [isDownloaded, setIsDownloaded] = useState(false)
     const [isOnDraggedArea, setIsOnDraggedArea] = useState(false)
-
-
     const dragHandler = e => {
         e.preventDefault()
         e.stopPropagation()
@@ -26,24 +25,35 @@ const AddAvatar = (props) => {
             setIsOnDraggedArea(true)
         } else if (e.type === "drop") {
             setIsOnDraggedArea(false)
+
             const dt = e.dataTransfer
             const file = dt.files
+            //console.log(file);
 
-
-            setDroppedFile(file)
-            const reader = previevFiles(file)
-            // console.log(reader, 'reader z addAvatar');
-            reader.onloadend = () => {
-                const src = reader.result
-                //console.log(src, 'src z reader onload')
-                setPrevUrl(src)
-                setIsFile(true)
+            if (file.length !== 1) {
+                alert("Możesz wybrać tylkok jedno zdjęcie")
+            } else if (checkAvatar(file[0].type)) {
+                console.log('Działa tylko zdjęcia');
+                setDroppedFile(file)
+                setIsclicked(false)
+                const reader = previevFiles(file)
+                // console.log(reader, 'reader z addAvatar');
+                reader.onloadend = () => {
+                    const src = reader.result
+                    //console.log(src, 'src z reader onload')
+                    setPrevUrl(src)
+                    setIsFile(true)
+                }
+            } else {
+                alert("Zły rodzaj pliku!")
             }
+
 
         }
     }
     const handleInput = e => {
         e.preventDefault()
+        setIsclicked(false)
         const file = e.target.files
         setDroppedFile(file)
         const reader = previevFiles(file)
@@ -60,7 +70,7 @@ const AddAvatar = (props) => {
         handleDroppedFiles(droppedFile).then(res => {
             if (res.status === 200) {
                 setIsUploaded(true)
-
+                setIsclicked(true)
                 setTimeout(() => {
                     closeAvatar()
                     setAvatar(prevurl)
@@ -68,8 +78,7 @@ const AddAvatar = (props) => {
             }
         })
     }
-    console.log(prevurl, 'prevUrl z addAVatar');
-
+    //console.log(prevurl, 'prevUrl z addAVatar');
     return (
         <div className='uploud-avatar-wrapper'>
             <div className={`dragg-area ${isOnDraggedArea ? 'highlight' : null}`} onDragEnter={dragHandler} onDragLeave={dragHandler} onDragOver={dragHandler} onDrop={dragHandler}>
@@ -83,7 +92,7 @@ const AddAvatar = (props) => {
 
                 {isFile ? <div className="previev-galery">
                     <PrevImg url={prevurl} />
-                    <button onClick={handleClick} className="send-avatar-button">Wyślij zdjęcie</button>
+                    {!isclicked ? <button onClick={handleClick} className="send-avatar-button save-btn">Wyślij zdjęcie</button> : null}
                 </div> : null}
             </div>
 

@@ -25,11 +25,12 @@ const updateTask = async (url, id, body) => {
     try {
         const fetch = await customFetch(finalUrl, options)
         console.log("działa try w update tasks", fetch);
+        return fetch
 
     } catch (e) {
-        console.log('działa catch');
 
         console.log(e);
+        return e
 
     }
 

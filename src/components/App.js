@@ -10,10 +10,10 @@ import findListAndTask from '../functions/findListAndTask'
 import copyData from '../functions/copyData'
 import createList from '../functions/createList'
 import updateDB from '../functions/updateDB'
-
+import { updateTask } from '../functions/updateTask'
 import HomePage from '../pages/WelcomePage'
-
 import Main from '../pages/Main'
+
 class App extends Component {
   state = {
     regValue: {
@@ -25,6 +25,7 @@ class App extends Component {
     isRegistrationDone: false,
     isLogin: false,
     isReady: false,
+    loginStatus: '',
     data: {},
     activeTask: {
       task: {}
@@ -99,17 +100,24 @@ class App extends Component {
           localStorage.setItem('accessToken', loginRes.token)
         }
         const user = loginRes.user
+        console.log(typeof user);
+
         sessionStorage.setItem('user', JSON.stringify(user))
-        this.manageData()
+        //this.manageData()
         this.setState({
-          isLogin: true
+          isLogin: true,
+          loginStatus: '200'
         })
         this.manageData("onSub", user)
         window.history.pushState({}, 'main', '/')
 
       } catch (e) {
-        console.log(e);
+        //console.log(e.message, 'error z app');
+        if (e.message === '400') {
+          console.log("działa warunek");
+          this.setState({ loginStatus: '400' })
 
+        }
       }
 
 
@@ -222,8 +230,16 @@ class App extends Component {
   }
   manageData = async (where, user = this.state.user) => {
     const token = sessionStorage.accessToken ? sessionStorage.accessToken : localStorage.accessToken
+    let userObj = user
     try {
-      const userObj = JSON.parse(user)
+      console.log(typeof user, 'user z manageData');
+      if (typeof user === 'string') {
+        userObj = JSON.parse(user)
+      }
+      /* */
+      console.log(typeof userObj);
+
+
       const userAvatar = `data:image/jpg;base64,${userObj.avatar}`
       userObj.avatar = userAvatar
       const tasks = await getTasks(token)
@@ -245,22 +261,24 @@ class App extends Component {
   stageTaskHandler = (e) => {
 
     const _id = e.currentTarget.parentNode.id
-    const listTittle = e.currentTarget.parentNode.dataset.listtittle
+    const listId = e.currentTarget.parentNode.dataset.listid
 
-    const listIndex = this.state.data.lists.findIndex(list => list.tittle === listTittle)
-    console.log(listIndex);
+    const listIndex = this.state.data.lists.findIndex(list => list._id === listId)
+
     const taskIndex = this.state.data.lists[listIndex].tasks.findIndex(task => task._id === _id)
-    //console.log(taskIndex);
+    console.log(taskIndex, 'task index');
     const data = { ...this.state.data }
     const modTask = data.lists[listIndex].tasks[taskIndex]
     if (modTask.stage === 1 || modTask.stage === 2) {
       data.lists[listIndex].tasks[taskIndex].stage += 1
     }
     this.setState({ data })
-
-    //console.log(this.state.data);
-
-    //console.log(this.state.data);
+    const body = {
+      stage: data.lists[listIndex].tasks[taskIndex].stage
+    }
+    const url = 'https://sebastian-webdev-task-app.herokuapp.com/tasks/'
+    updateTask(url, _id, body).then(res => { console.log(res) }
+    )
 
   }
   addTaskHandler = (e) => {
@@ -275,15 +293,66 @@ class App extends Component {
     const newTask = createTask(listId, owner)
     data.lists[listIndex].tasks.push(newTask)
     this.setState({ data })
+    const url = `https://sebastian-webdev-task-app.herokuapp.com/tasks`
+    const body = {
+      name: newTask.name,
+      description: newTask.description,
+      list_id: newTask.list,
+      temp_Id: newTask.temp_Id
+    }
+    customFetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        "Content-Type": "application/json",
+        'Authorization': `Bearer ${sessionStorage.accessToken ? sessionStorage.accessToken : localStorage.accessToken}`
+      },
+      body: JSON.stringify(body)
+    }).then(res => {
+      console.log(res, 'odpowiedź z zrób taska');
+      const data = { ...this.state.data }
+      const taskIndex = data.lists[listIndex].tasks.findIndex(t => t.temp_Id === res.temp_Id)
+      console.log(taskIndex, 'task przefiltrowany z lokalnej bazy');
+      data.lists[listIndex].tasks[taskIndex]._id = res._id
+      data.lists[listIndex].tasks[taskIndex].createdAt = res.createdAt
+      data.lists[listIndex].tasks[taskIndex].updatedAt = res.updatedAt
+
+      this.setState({
+        data
+      })
+
+
+    })
 
   }
   addListHandler = (e) => {
     const newData = copyData(this.state.data)
     const owner = this.state.data.user._id
-
     const newList = createList(owner)
     newData.lists.push(newList)
     this.setState({ data: newData })
+    const url = `https://sebastian-webdev-task-app.herokuapp.com/lists`
+    const body = {
+      tittle: newList.tittle,
+      description: newList.description,
+      temp_id: newList.temp_id
+    }
+    customFetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        "Content-Type": "application/json",
+        'Authorization': `Bearer ${sessionStorage.accessToken ? sessionStorage.accessToken : localStorage.accessToken}`
+      },
+      body: JSON.stringify(body)
+    }).then(res => {
+      const data = { ...this.state.data }
+      const listIndex = data.lists.findIndex(list => list.temp_id === res.temp_id)
+      data.lists[listIndex]._id = res._id
+      data.lists[listIndex].createdAt = res.createdAt
+      data.lists[listIndex].updatedAt = res.updatedAt
+      this.setState({ data })
+    })
 
   }
   fullTaskHandler = (e) => {
@@ -323,10 +392,21 @@ class App extends Component {
       }
       if (e.target.dataset.type === 'save') {
         const newValues = { ...this.state.activeTaskInputs }
-        task.task.name = newValues.name
-        task.task.description = newValues.description
-        this.setState({ activeTask: { task: {} } })
-        console.log(newValues);
+        if (!newValues.name) {
+          alert("Task musi mieć jakąś nazwę")
+        } else {
+          task.task.name = newValues.name
+          task.task.description = newValues.description
+          this.setState({ activeTask: { task: {} } })
+          console.log(task);
+          const body = {
+            name: newValues.name,
+            description: newValues.description
+          }
+          const id = task.task._id
+          const url = 'https://sebastian-webdev-task-app.herokuapp.com/tasks/'
+          updateTask(url, id, body).then(res => { console.log(res) })
+        }
       } else if (e.currentTarget.dataset.name === "close") {
         this.setState({ activeTask: { task: {} } })
       } else if (e.target.dataset.type === "delete") {
@@ -334,8 +414,23 @@ class App extends Component {
         if (confirm) {
           const listIndex = task.listIndex
           const taskIndex = task.taskIndex
+          const id = data.lists[listIndex].tasks[taskIndex]._id
+          const url = `https://sebastian-webdev-task-app.herokuapp.com/tasks/${id}`
+          const options = {
+            method: 'DELETE',
+            headers: {
+              'Accept': 'application/json, text/plain, */*',
+              "Content-Type": "application/json",
+              'Authorization': `Bearer ${sessionStorage.accessToken ? sessionStorage.accessToken : localStorage.accessToken}`
+            }
+          }
+          customFetch(url, options).then(res => {
+            console.log(res, 'res z delete task');
+          })
           data.lists[listIndex].tasks.splice(taskIndex, 1)
           this.setState({ data: data, activeTask: { task: {} } })
+
+
         }
       }
 
@@ -378,15 +473,16 @@ class App extends Component {
       newActiveList[0].tittle = newTittle
       newData.lists[listIndex].tittle = newTittle
       newData.lists[listIndex].description = newDesc
-      console.log(newTittle);
-      console.log(newDesc);
+
       if (!newTittle) {
         alert("Nazwa jest wymagana")
       } else {
         this.setState({
           activeList: newActiveList,
           activeListName: newTittle,
-          data: newData
+          data: newData,
+          isListEddited: false
+
         })
 
         const url = `https://sebastian-webdev-task-app.herokuapp.com/lists/${ListId}`
@@ -403,20 +499,23 @@ class App extends Component {
   }
   setActiveList = e => {
 
-    console.log(e.target);
-    const activeListName = e.currentTarget.name;
-    const activeListId = e.currentTarget.id
-    const activeList = this.state.data.lists.filter(list => list._id === activeListId)
-    const inputs = {
-      tittle: activeListName,
-      description: activeList[0].description
+    if (e.target.id !== 'delete-list') {
+      const activeListName = e.currentTarget.name;
+      const activeListId = e.currentTarget.id
+      const activeList = this.state.data.lists.filter(list => list._id === activeListId)
+      const inputs = {
+        tittle: activeListName,
+        description: activeList[0].description
+      }
+      this.setState({
+        activeListName,
+        activeList,
+        activeListId,
+        activeListInputs: inputs
+      })
     }
-    this.setState({
-      activeListName,
-      activeList,
-      activeListId,
-      activeListInputs: inputs
-    })
+
+
   }
   userInputsHandler = e => {
     const type = e.target.dataset.type
@@ -488,6 +587,34 @@ class App extends Component {
     }
 
   }
+  deleteList = e => {
+    e.preventDefault()
+    const id = e.target.dataset.listid
+    const url = `https://sebastian-webdev-task-app.herokuapp.com/lists/${id}`
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        "Content-Type": "application/json",
+        'Authorization': `Bearer ${sessionStorage.accessToken ? sessionStorage.accessToken : localStorage.accessToken}`
+      }
+    }
+
+    if (window.confirm("Czy na pewno chcesz usunąć listę?")) {
+      const data = { ...this.state.data }
+      const listIndex = data.lists.findIndex(list => list._id === id)
+      data.lists.splice(listIndex, 1)
+      this.setState({ data })
+      customFetch(url, options).then(res => {
+        console.log(res);
+      })
+
+    } else {
+
+
+    }
+
+  }
   handlers = {
     stageTaskHandler: this.stageTaskHandler,
     addTaskHandler: this.addTaskHandler,
@@ -498,7 +625,8 @@ class App extends Component {
     userInputsHandler: this.userInputsHandler,
     userSaveHandler: this.userSaveHandler,
     userResetInputs: this.userResetInputs,
-    setNewAvatarToLocaState: this.setNewAvatarToLocaState
+    setNewAvatarToLocaState: this.setNewAvatarToLocaState,
+    deleteList: this.deleteList
 
   }
   render() {

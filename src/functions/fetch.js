@@ -5,11 +5,14 @@ const customFetch = async (url = "", options = {}) => {
             const res = await fet.json()
             return res
         } else {
-            throw new Error('fetch nie działa', fet)
+            console.log(fet.status);
+            throw new Error(fet.status)
+
         }
 
     } catch (e) {
         console.log(e, 'bład z custom fetch');
+        throw new Error(e.message)
     }
 
 }

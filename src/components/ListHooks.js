@@ -10,11 +10,11 @@ const ListHooks = props => {
     return (
         <div className="app-window-box box-full" >
             {<ListData activeListInputs={activeListInputs} activeList={activeList} handler={handlers.listInputsHandler} outFocusHandler={handlers.listInputsOutFocus} isListEddited={isListEddited} />}
-            <h1 className="task-name" > {activeList[0].tittle} </h1>
+
             <div className="tasks-wrapper">
-                <Stage activeTaskInputs={activeTaskInputs} stage={1} activeTask={activeTask} handlers={handlers} tasks={activeList[0].tasks} listName={activeList[0].tittle} stageHandler={handlers.stageTaskHandler} listId={activeList[0]._id} />
-                <Stage activeTaskInputs={activeTaskInputs} stage={2} activeTask={activeTask} tasks={activeList[0].tasks} stageHandler={handlers.stageTaskHandler} listName={activeList[0].tittle} handlers={handlers} listId={activeList[0]._id} />
-                <Stage activeTaskInputs={activeTaskInputs} stage={3} activeTask={activeTask} tasks={activeList[0].tasks} stageHandler={handlers.stageTaskHandler} listName={activeList[0].tittle} handlers={handlers} listId={activeList[0]._id} />
+                <Stage stageName='Do Zrobienia' activeTaskInputs={activeTaskInputs} stage={1} activeTask={activeTask} handlers={handlers} tasks={activeList[0].tasks} listName={activeList[0].tittle} stageHandler={handlers.stageTaskHandler} listId={activeList[0]._id} />
+                <Stage stageName='W trakcie' activeTaskInputs={activeTaskInputs} stage={2} activeTask={activeTask} tasks={activeList[0].tasks} stageHandler={handlers.stageTaskHandler} listName={activeList[0].tittle} handlers={handlers} listId={activeList[0]._id} />
+                <Stage stageName='Zrobione' activeTaskInputs={activeTaskInputs} stage={3} activeTask={activeTask} tasks={activeList[0].tasks} stageHandler={handlers.stageTaskHandler} listName={activeList[0].tittle} handlers={handlers} listId={activeList[0]._id} />
             </div>
 
         </div >

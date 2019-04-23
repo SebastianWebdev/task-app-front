@@ -4,12 +4,12 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import ListNavItem from "../components/ListNavItem;"
 const NavMain = (props) => {
-    const { lists, userName, addListHandler, handler } = props
-    const ReactLists = lists.map(list => <ListNavItem key={list._id} name={list.tittle} id={list._id} handler={handler} />)
+    const { lists, userName, addListHandler, handler, deleteList, avatar } = props
+    const ReactLists = lists.map(list => <ListNavItem key={list._id ? list._id : list.temp_id} name={list.tittle} id={list._id ? list._id : list.temp_id} handler={handler} deleteList={deleteList} />)
 
     return (
         <nav className=" nav nav2">
-            <div className="nav-user"><img src="" alt="" /> <NavLink to="/user">{userName}</NavLink></div>
+            <div className="nav-user"><img src={avatar} alt="" className="avatar-thumbnail" /> <NavLink to="/user">{userName}</NavLink></div>
             {ReactLists}
             <button onClick={addListHandler} className="btn-rec" id="add-list">+</button>
 

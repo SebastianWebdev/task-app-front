@@ -1,5 +1,6 @@
 const createTask = (listId, userId) => {
     const createdAt = new Date().toISOString()
+    const tempId = new Date().getTime()
     const body = {
         completed: false,
         owner: userId,
@@ -9,7 +10,8 @@ const createTask = (listId, userId) => {
         list: listId,
         createdAt,
         updatedAt: createdAt,
-        _id: createdAt
+        _id: '',
+        temp_Id: tempId
     }
     return body
 }

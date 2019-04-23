@@ -1,9 +1,11 @@
 const createList = owner => {
     const createdAt = new Date().toISOString()
+    const tempId = new Date().getTime()
     const newList = {
         tittle: 'Nowa Lista',
         description: "Tutaj umieść opis",
-        _id: createdAt,
+        _id: '',
+        temp_id: tempId,
         createdAt,
         tasks: [],
         owner,

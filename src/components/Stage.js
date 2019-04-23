@@ -3,7 +3,7 @@ import React from 'react'
 import TaskFull from '../components/TaskFull'
 import Task from './Task'
 const Stage = (props) => {
-    const { stage, tasks, activeTask, stageHandler, listName, activeTaskInputs, listId } = props
+    const { stage, tasks, activeTask, stageHandler, listName, activeTaskInputs, listId, stageName } = props
     const { handlers } = props
     const stageTasks = tasks ? tasks.filter(task => task.stage === stage) : null
     console.log(activeTask, 'Active task z staga');
@@ -12,7 +12,7 @@ const Stage = (props) => {
 
     return (
         <div className="stag1 tasks-box">
-            <h2 className="stage-name">To Do</h2>{map}
+            <h2 className="stage-name">{stageName}</h2>{map}
             {stage === 1 ? <div className="tasks-footer">
                 <button id={listId} data-listname={listName} onClick={handlers.addTaskHandler} className="add-task-btn btn-rec">Add</button>
             </div> : null}

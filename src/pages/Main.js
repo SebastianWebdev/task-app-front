@@ -18,7 +18,7 @@ class Main extends Component {
             <Router>
                 {isReady ?
                     <div className="main-wraper">
-                        <NavMain lists={data.lists} userName={data.user.name} handler={handlers.setActiveList} addListHandler={handlers.addListHandler} />
+                        <NavMain lists={data.lists} avatar={data.user.avatar} userName={data.user.name} handler={handlers.setActiveList} addListHandler={handlers.addListHandler} deleteList={handlers.deleteList} />
                         <Switch>
                             <Route path="/list" render={(props) => (activeListId ? <ListHooks {...props} activeListInputs={activeListInputs} handlers={handlers} activeListName={activeListName} lists={data.lists} activeTask={activeTask} activeList={activeList} activeTaskInputs={activeTaskInputs} isListEddited={isListEddited} /> : <EmptyList />)} />
                             <Route path='/user' render={(props) => <User {...props} user={data.user} handlers={handlers} userInputs={userInputs} isUserEddited={isUserEddited} token={token} />} />
