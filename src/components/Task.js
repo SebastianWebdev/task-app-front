@@ -2,7 +2,7 @@ import React from 'react';
 
 const Task = (props) => {
     const { task, stageHandler, fullTaskHandler, listName, listId } = props
-    //console.log(task, 'task z Task');
+
 
     return (
         <div className="task" data-listtittle={listName} data-listid={listId} data-stage={task.stage} data-type="taskSmall" id={task._id} onClick={fullTaskHandler} >

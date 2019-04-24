@@ -102,10 +102,10 @@ class App extends Component {
           localStorage.setItem('accessToken', loginRes.token)
         }
         const user = loginRes.user
-        console.log(typeof user);
+
 
         sessionStorage.setItem('user', JSON.stringify(user))
-        //this.manageData()
+
         this.setState({
           isLogin: true,
           loginStatus: '200'
@@ -114,9 +114,9 @@ class App extends Component {
         window.history.pushState({}, 'main', '/')
 
       } catch (e) {
-        //console.log(e.message, 'error z app');
+
         if (e.message === '400') {
-          //console.log("działa warunek");
+
           this.setState({ loginStatus: '400' })
 
         }
@@ -177,6 +177,7 @@ class App extends Component {
       window.history.pushState({}, 'main', '/')
       e.returnValue = '';
     })*/
+
     const token = localStorage.getItem('accessToken')
     const user = sessionStorage.getItem('user')
     if (user) {
@@ -228,6 +229,10 @@ class App extends Component {
       }).catch(e => {
         console.log(e);
       })
+    } else {
+      this.setState({
+        isload: true
+      })
     }
 
   }
@@ -275,7 +280,7 @@ class App extends Component {
     const listIndex = this.state.data.lists.findIndex(list => list._id === listId)
 
     const taskIndex = this.state.data.lists[listIndex].tasks.findIndex(task => task._id === _id)
-    console.log(taskIndex, 'task index');
+
     const data = { ...this.state.data }
     const modTask = data.lists[listIndex].tasks[taskIndex]
     if (modTask.stage === 1 || modTask.stage === 2) {
@@ -286,7 +291,7 @@ class App extends Component {
       stage: data.lists[listIndex].tasks[taskIndex].stage
     }
     const url = 'https://sebastian-webdev-task-app.herokuapp.com/tasks/'
-    updateTask(url, _id, body).then(res => { console.log(res) }
+    updateTask(url, _id, body).then(res => { /*console.log(res) */ }
     )
 
   }
@@ -318,10 +323,10 @@ class App extends Component {
       },
       body: JSON.stringify(body)
     }).then(res => {
-      console.log(res, 'odpowiedź z zrób taska');
+
       const data = { ...this.state.data }
       const taskIndex = data.lists[listIndex].tasks.findIndex(t => t.temp_Id === res.temp_Id)
-      console.log(taskIndex, 'task przefiltrowany z lokalnej bazy');
+
       data.lists[listIndex].tasks[taskIndex]._id = res._id
       data.lists[listIndex].tasks[taskIndex].createdAt = res.createdAt
       data.lists[listIndex].tasks[taskIndex].updatedAt = res.updatedAt
@@ -379,7 +384,7 @@ class App extends Component {
           description: work.task.description
         }
       })
-      console.log(work);
+
     } else {
       const data = { ...this.state.data }
       const task = { ...this.state.activeTask }
@@ -407,14 +412,14 @@ class App extends Component {
           task.task.name = newValues.name
           task.task.description = newValues.description
           this.setState({ activeTask: { task: {} } })
-          console.log(task);
+
           const body = {
             name: newValues.name,
             description: newValues.description
           }
           const id = task.task._id
           const url = 'https://sebastian-webdev-task-app.herokuapp.com/tasks/'
-          updateTask(url, id, body).then(res => { console.log(res) })
+          updateTask(url, id, body).then(res => { /*console.log(res)*/ })
         }
       } else if (e.currentTarget.dataset.name === "close") {
         this.setState({ activeTask: { task: {} } })
@@ -434,7 +439,7 @@ class App extends Component {
             }
           }
           customFetch(url, options).then(res => {
-            console.log(res, 'res z delete task');
+
           })
           data.lists[listIndex].tasks.splice(taskIndex, 1)
           this.setState({ data: data, activeTask: { task: {} } })
@@ -456,7 +461,7 @@ class App extends Component {
     const newActiveList = copyData(this.state.activeList)
     this.setState({ isListEddited: true })
     if (e.type === "change") {
-      console.log(e.type);
+
       if (e.target.name === "list-tittle") {
         this.setState(prev => ({
           activeListInputs: {
@@ -512,17 +517,15 @@ class App extends Component {
       // e.preventDefault()
       const activeListName = e.currentTarget.name;
       const activeListId = e.currentTarget.id
-      const typOfId = typeof (activeListId * 1)
-      console.log(typOfId);
-      console.log(typeof typOfId);
-      console.log(validateId(activeListId), "z walidatora");
+
+
       let activeList = []
       if (validateId(activeListId)) {
         activeList = this.state.data.lists.filter(list => list.temp_id === activeListId * 1)
       } else {
         activeList = this.state.data.lists.filter(list => list._id === activeListId)
       }
-      console.log(activeList, 'active list po walidacji');
+
       const inputs = {
         tittle: activeListName,
         description: activeList[0].description
@@ -559,7 +562,6 @@ class App extends Component {
     }
   }
   userSaveHandler = e => {
-    console.log(e.target);
     const newName = this.state.userInputs.name
     const newData = copyData(this.state.data)
     newData.user.name = newName
@@ -580,7 +582,7 @@ class App extends Component {
       body: JSON.stringify(body)
     }
     customFetch(url, options).then(res => {
-      console.log(res);
+      // console.log(res);
 
     }).catch(e => {
       console.log(e);
@@ -626,7 +628,7 @@ class App extends Component {
       data.lists.splice(listIndex, 1)
       this.setState({ data })
       customFetch(url, options).then(res => {
-        console.log(res);
+        //console.log(res);
       })
 
     } else {
@@ -687,7 +689,7 @@ class App extends Component {
     const { isRegistrationDone, isReady, data, activeTask, activeTaskInputs, activeListInputs, activeListName, activeList, activeListId, isUserEddited, userInputs, isListEddited, loginStatus, isload } = this.state
     const regValues = this.state.regValue
     const token = localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken')
-    //console.log(isload, "z rendera w app");
+
 
     if (isload) {
       return (

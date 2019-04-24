@@ -6,7 +6,7 @@ const Stage = (props) => {
     const { stage, tasks, activeTask, stageHandler, listName, activeTaskInputs, listId, stageName } = props
     const { handlers } = props
     const stageTasks = tasks ? tasks.filter(task => task.stage === stage) : null
-    console.log(activeTask, 'Active task z staga');
+
 
     const map = stageTasks ? stageTasks.map(task => <Task key={task._id} listName={listName} listId={listId} task={task} stageHandler={stageHandler} fullTaskHandler={handlers.fullTaskHandler} />) : null
 

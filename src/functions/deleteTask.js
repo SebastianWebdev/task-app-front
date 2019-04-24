@@ -20,10 +20,10 @@ const deleteTask = async (id) => {
     }
     try {
         const fetch = await customFetch(url, options)
-        //console.log("działa try w update tasks", fetch);
+
 
     } catch (e) {
-        //console.log('działa catch');
+
 
         console.log(e);
 

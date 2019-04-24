@@ -3,11 +3,6 @@ import {
 } from '../functions/fetch'
 const updateTask = async (url, id, body) => {
     const finalUrl = url + id
-    //const url = `https://sebastian-webdev-task-app.herokuapp.com/tasks/${id}`
-    console.log(url);
-    //const jsonBody = JSON.stringify(body)
-    //console.log(jsonBody, "jsonbody");
-
     const options = {
         method: 'PATCH',
         headers: {
@@ -24,7 +19,7 @@ const updateTask = async (url, id, body) => {
     }
     try {
         const fetch = await customFetch(finalUrl, options)
-        console.log("działa try w update tasks", fetch);
+
         return fetch
 
     } catch (e) {

@@ -14,7 +14,7 @@ class Main extends Component {
 
     render() {
         const { isReady, data, activeTask, activeTaskInputs, handlers, activeListInputs, activeListName, activeList, activeListId, isUserEddited, userInputs, token, isListEddited } = this.props
-        console.log(activeListId);
+
 
         return (
             <Router>
@@ -22,8 +22,12 @@ class Main extends Component {
                     <div className="main-wraper">
                         <NavMain lists={data.lists} avatar={data.user.avatar} userName={data.user.name} handler={handlers.setActiveList} addListHandler={handlers.addListHandler} deleteList={handlers.deleteList} />
                         <Switch>
-                            <Route path="/list" render={(props) => (activeListId ? <ListHooks {...props} activeListInputs={activeListInputs} handlers={handlers} activeListName={activeListName} lists={data.lists} activeTask={activeTask} activeList={activeList} activeTaskInputs={activeTaskInputs} isListEddited={isListEddited} /> : <EmptyList />)} />
+                            <Route path="/list" render={(props) => (activeListId ? <ListHooks {...props} activeListInputs={activeListInputs} handlers={handlers} activeListName={activeListName} lists={data.lists} activeTask={activeTask} activeList={activeList} activeTaskInputs={activeTaskInputs} isListEddited={isListEddited} /> : <EmptyList data={data} />)} />
                             <Route path='/user' render={(props) => <User {...props} user={data.user} handlers={handlers} userInputs={userInputs} isUserEddited={isUserEddited} token={token} />} />
+                            <Route path="/" render={(props) => (
+                                <EmptyList {...props} data={data} />
+                            )} />
+
                         </Switch>
                         <LogOut logOutHandler={handlers.logOutHandler} />
                     </div> : null}

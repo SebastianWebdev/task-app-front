@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import './components Css/AddAvatar.css'
 import handleDroppedFiles from '../functions/handleDroppedFiles'
 import previevFiles from '../functions/previevFile'
@@ -28,19 +28,19 @@ const AddAvatar = (props) => {
 
             const dt = e.dataTransfer
             const file = dt.files
-            //console.log(file);
+
 
             if (file.length !== 1) {
                 alert("Możesz wybrać tylkok jedno zdjęcie")
             } else if (checkAvatar(file[0].type)) {
-                console.log('Działa tylko zdjęcia');
+
                 setDroppedFile(file)
                 setIsclicked(false)
                 const reader = previevFiles(file)
-                // console.log(reader, 'reader z addAvatar');
+
                 reader.onloadend = () => {
                     const src = reader.result
-                    //console.log(src, 'src z reader onload')
+
                     setPrevUrl(src)
                     setIsFile(true)
                 }
@@ -59,7 +59,7 @@ const AddAvatar = (props) => {
         const reader = previevFiles(file)
         reader.onloadend = () => {
             const src = reader.result
-            //console.log(src, 'src z reader onload')
+
             setPrevUrl(src)
             setIsFile(true)
         }
@@ -78,7 +78,7 @@ const AddAvatar = (props) => {
             }
         })
     }
-    //console.log(prevurl, 'prevUrl z addAVatar');
+
     return (
         <div className='uploud-avatar-wrapper'>
             <div className={`dragg-area ${isOnDraggedArea ? 'highlight' : null}`} onDragEnter={dragHandler} onDragLeave={dragHandler} onDragOver={dragHandler} onDrop={dragHandler}>

@@ -4,7 +4,7 @@ const LogOut = (props) => {
     return (
         <div onClick={props.logOutHandler} className="logOut-wrap">
             <p className="log-out-text">Logout</p>
-            <i class="fas fa-sign-out-alt log-out-ico"></i>
+            <i className="fas fa-sign-out-alt log-out-ico"></i>
         </div>
     );
 }

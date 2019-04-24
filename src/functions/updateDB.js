@@ -12,7 +12,7 @@ const updateDB = (url, body) => {
         body: JSON.stringify(body)
     }
     customFetch(url, options).then(res => {
-        console.log(res);
+
     }).catch(e => {
         console.log(e);
     })
