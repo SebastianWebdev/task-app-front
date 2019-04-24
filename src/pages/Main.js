@@ -5,6 +5,7 @@ import NavMain from "../layouts/NavMain"
 import ListHooks from '../components/ListHooks'
 import EmptyList from '../components/EmptyList'
 import User from '../components/User'
+import LogOut from '../components/LogOut'
 class Main extends Component {
     state = {
         isLoaded: false,
@@ -13,6 +14,7 @@ class Main extends Component {
 
     render() {
         const { isReady, data, activeTask, activeTaskInputs, handlers, activeListInputs, activeListName, activeList, activeListId, isUserEddited, userInputs, token, isListEddited } = this.props
+        console.log(activeListId);
 
         return (
             <Router>
@@ -23,7 +25,7 @@ class Main extends Component {
                             <Route path="/list" render={(props) => (activeListId ? <ListHooks {...props} activeListInputs={activeListInputs} handlers={handlers} activeListName={activeListName} lists={data.lists} activeTask={activeTask} activeList={activeList} activeTaskInputs={activeTaskInputs} isListEddited={isListEddited} /> : <EmptyList />)} />
                             <Route path='/user' render={(props) => <User {...props} user={data.user} handlers={handlers} userInputs={userInputs} isUserEddited={isUserEddited} token={token} />} />
                         </Switch>
-
+                        <LogOut logOutHandler={handlers.logOutHandler} />
                     </div> : null}
             </Router>
         );

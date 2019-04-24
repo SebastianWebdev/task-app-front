@@ -13,7 +13,8 @@ import updateDB from '../functions/updateDB'
 import { updateTask } from '../functions/updateTask'
 import HomePage from '../pages/WelcomePage'
 import Main from '../pages/Main'
-
+import Loading from './Loading'
+import validateId from '../functions/typeof_id'
 class App extends Component {
   state = {
     regValue: {
@@ -25,6 +26,7 @@ class App extends Component {
     isRegistrationDone: false,
     isLogin: false,
     isReady: false,
+    isload: false,
     loginStatus: '',
     data: {},
     activeTask: {
@@ -114,7 +116,7 @@ class App extends Component {
       } catch (e) {
         //console.log(e.message, 'error z app');
         if (e.message === '400') {
-          console.log("działa warunek");
+          //console.log("działa warunek");
           this.setState({ loginStatus: '400' })
 
         }
@@ -133,7 +135,8 @@ class App extends Component {
             name: value,
             email: prev.regValue.email,
             pass: prev.regValue.pass
-          }
+          },
+
         }))
 
         break;
@@ -143,7 +146,8 @@ class App extends Component {
             name: prev.regValue.name,
             email: value,
             pass: prev.regValue.pass
-          }
+          },
+          loginStatus: ""
         }))
 
         break;
@@ -153,7 +157,8 @@ class App extends Component {
             name: prev.regValue.name,
             email: prev.regValue.email,
             pass: value
-          }
+          },
+          loginStatus: ""
         }))
 
         break;
@@ -168,6 +173,10 @@ class App extends Component {
 
   }
   componentWillMount() {
+    /*window.addEventListener('beforeunload', (e) => {
+      window.history.pushState({}, 'main', '/')
+      e.returnValue = '';
+    })*/
     const token = localStorage.getItem('accessToken')
     const user = sessionStorage.getItem('user')
     if (user) {
@@ -180,7 +189,8 @@ class App extends Component {
           userInputs: {
             name: res.user.name,
             email: res.user.email
-          }
+          },
+          isload: true
         })
       })
     } else if (token) {
@@ -205,12 +215,13 @@ class App extends Component {
         })
         const user2 = sessionStorage.getItem('user')
         this.manageData("mount", user2).then(res => {
-          console.log(res);
+
           this.setState({
             userInputs: {
               name: res.user.name,
               email: res.user.email
-            }
+            },
+            isload: true
           })
         })
 
@@ -232,12 +243,10 @@ class App extends Component {
     const token = sessionStorage.accessToken ? sessionStorage.accessToken : localStorage.accessToken
     let userObj = user
     try {
-      console.log(typeof user, 'user z manageData');
+
       if (typeof user === 'string') {
         userObj = JSON.parse(user)
       }
-      /* */
-      console.log(typeof userObj);
 
 
       const userAvatar = `data:image/jpg;base64,${userObj.avatar}`
@@ -250,7 +259,7 @@ class App extends Component {
         isReady: true,
         data
       })
-      console.log(data);
+
       return data
     } catch (e) {
       console.log(e);
@@ -500,9 +509,20 @@ class App extends Component {
   setActiveList = e => {
 
     if (e.target.id !== 'delete-list') {
+      // e.preventDefault()
       const activeListName = e.currentTarget.name;
       const activeListId = e.currentTarget.id
-      const activeList = this.state.data.lists.filter(list => list._id === activeListId)
+      const typOfId = typeof (activeListId * 1)
+      console.log(typOfId);
+      console.log(typeof typOfId);
+      console.log(validateId(activeListId), "z walidatora");
+      let activeList = []
+      if (validateId(activeListId)) {
+        activeList = this.state.data.lists.filter(list => list.temp_id === activeListId * 1)
+      } else {
+        activeList = this.state.data.lists.filter(list => list._id === activeListId)
+      }
+      console.log(activeList, 'active list po walidacji');
       const inputs = {
         tittle: activeListName,
         description: activeList[0].description
@@ -615,6 +635,36 @@ class App extends Component {
     }
 
   }
+  logOutHandler = e => {
+    const url = `https://sebastian-webdev-task-app.herokuapp.com/users/logout`
+    const options = {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        "Content-Type": "application/json",
+        'Authorization': `Bearer ${sessionStorage.accessToken ? sessionStorage.accessToken : localStorage.accessToken}`
+      }
+    }
+    fetch(url, options).then(res => {
+
+      window.history.pushState({}, 'main', '/')
+      this.setState({
+        isLogin: false,
+        isReady: false,
+        activeList: [],
+        activeListId: '',
+        activeListName: '',
+        data: {},
+        loginStatus: ""
+      })
+      sessionStorage.clear()
+      localStorage.clear()
+
+    }).catch(e => {
+      console.log(e);
+    })
+
+  }
   handlers = {
     stageTaskHandler: this.stageTaskHandler,
     addTaskHandler: this.addTaskHandler,
@@ -626,25 +676,34 @@ class App extends Component {
     userSaveHandler: this.userSaveHandler,
     userResetInputs: this.userResetInputs,
     setNewAvatarToLocaState: this.setNewAvatarToLocaState,
-    deleteList: this.deleteList
+    deleteList: this.deleteList,
+    logOutHandler: this.logOutHandler
 
   }
+
   render() {
 
 
-    const { isRegistrationDone, isReady, data, activeTask, activeTaskInputs, activeListInputs, activeListName, activeList, activeListId, isUserEddited, userInputs, isListEddited } = this.state
+    const { isRegistrationDone, isReady, data, activeTask, activeTaskInputs, activeListInputs, activeListName, activeList, activeListId, isUserEddited, userInputs, isListEddited, loginStatus, isload } = this.state
     const regValues = this.state.regValue
     const token = localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken')
+    //console.log(isload, "z rendera w app");
 
-
-    return (
-      <>
+    if (isload) {
+      return (
         <div className="app-wrapper">
-          {this.state.isLogin ? <Main token={token} activeListId={activeListId} activeList={activeList} activeListName={activeListName} activeListInputs={activeListInputs} activeTask={activeTask} handlers={this.handlers} isReady={isReady} data={data} activeTaskInputs={activeTaskInputs} userInputs={userInputs} isUserEddited={isUserEddited} isListEddited={isListEddited} /> : <HomePage regValues={regValues} isRegistrationDone={isRegistrationDone} onChange={this.onChange} onSub={this.onSub} />}
+          {this.state.isReady ? <Main token={token} activeListId={activeListId} activeList={activeList} activeListName={activeListName} activeListInputs={activeListInputs} activeTask={activeTask} handlers={this.handlers} isReady={isReady} data={data} activeTaskInputs={activeTaskInputs} userInputs={userInputs} isUserEddited={isUserEddited} isListEddited={isListEddited} /> : <HomePage regValues={regValues} isRegistrationDone={isRegistrationDone} onChange={this.onChange} onSub={this.onSub}
+            loginStatus={loginStatus} />}
           <Footer />
         </div>
-      </>
-    );
+      )
+    } else {
+      return (
+        <Loading />
+      )
+    }
+
+
   }
 }
 

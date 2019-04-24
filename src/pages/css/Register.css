@@ -26,6 +26,11 @@
     background-color: rgb(240, 240, 240);
 }
 
+.login-alert {
+    color: red;
+    font-weight: 300;
+}
+
 #rememberMe {
     height: 18px;
     width: 18px;
@@ -46,6 +51,15 @@
     color: rgb(82, 82, 82);
     font-size: 1.8rem;
     cursor: pointer;
+    transition: 100ms;
+}
+
+.reg-sub:hover {
+    background-color: rgb(212, 212, 212);
+}
+
+.reg-sub:active {
+    transform: scale(0.99)
 }
 
 .postreg-link {

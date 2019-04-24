@@ -9,14 +9,14 @@ import { BrowserRouter as Router, Switch, Route } from '../../node_modules/react
 class HomePage extends Component {
     state = {}
     render() {
-        const { regValues, isRegistrationDone } = this.props
+        const { regValues, isRegistrationDone, loginStatus } = this.props
         return (
             <Router>
                 <>
                     <Nav isMain={true} />
                     <Switch>
                         <Route exact path="/" component={Welcome} />
-                        <Route path="/login" render={(props) => <LoginPage {...props} regValues={regValues} handler={this.props.onChange} onSub={this.props.onSub} isRegistrationDone={isRegistrationDone} />} />
+                        <Route path="/login" render={(props) => <LoginPage {...props} regValues={regValues} handler={this.props.onChange} onSub={this.props.onSub} isRegistrationDone={isRegistrationDone} loginStatus={loginStatus} />} />
                         <Route path="/register" render={(props) => <RegisterPage {...props} regValues={regValues} handler={this.props.onChange} onSub={this.props.onSub} isRegistrationDone={isRegistrationDone} />} />
                     </Switch>
                 </>
