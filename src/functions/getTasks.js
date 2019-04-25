@@ -21,7 +21,6 @@ const getTasks = async (token) => {
 
 }
 
-
 export {
     getTasks
 }
