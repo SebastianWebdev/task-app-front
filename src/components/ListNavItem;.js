@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom'
 const ListNavItem = (props) => {
-
     return (
         <NavLink to={'list'} id={props.id} name={props.name} onClick={props.handler} className="list-item">
             <div className="list-item">
@@ -12,5 +11,4 @@ const ListNavItem = (props) => {
         </NavLink>
     );
 }
-
 export default ListNavItem;

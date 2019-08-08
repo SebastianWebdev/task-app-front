@@ -4,7 +4,6 @@ const TaskFull = (props) => {
     const { _id, stage } = props.task.task
     const { handler, activeTaskInputs } = props
     const { name, description } = activeTaskInputs
-
     return (
         <div className="taskFull-wrapp" id={_id} data-type="taskFull" data-stage={stage}>
             <div className="task-close" onClick={handler} data-name="close"><i className="fas fa-times"></i></div>

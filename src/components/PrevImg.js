@@ -7,5 +7,4 @@ const prevImg = (props) => {
         </div>
     );
 }
-
 export default prevImg;

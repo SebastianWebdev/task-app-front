@@ -3,7 +3,6 @@ import './components Css/AddAvatar.css'
 import handleDroppedFiles from '../functions/handleDroppedFiles'
 import previevFiles from '../functions/previevFile'
 import PrevImg from './PrevImg'
-
 import checkAvatar from '../functions/checkAvatar'
 const AddAvatar = (props) => {
     const { setAvatar, closeAvatar } = props
@@ -20,35 +19,26 @@ const AddAvatar = (props) => {
             setIsOnDraggedArea(true)
         } else if (e.type === "dragleave") {
             setIsOnDraggedArea(false)
-
         } else if (e.type === "dragover") {
             setIsOnDraggedArea(true)
         } else if (e.type === "drop") {
             setIsOnDraggedArea(false)
-
             const dt = e.dataTransfer
             const file = dt.files
-
-
             if (file.length !== 1) {
                 alert("Możesz wybrać tylkok jedno zdjęcie")
             } else if (checkAvatar(file[0].type)) {
-
                 setDroppedFile(file)
                 setIsclicked(false)
                 const reader = previevFiles(file)
-
                 reader.onloadend = () => {
                     const src = reader.result
-
                     setPrevUrl(src)
                     setIsFile(true)
                 }
             } else {
                 alert("Zły rodzaj pliku!")
             }
-
-
         }
     }
     const handleInput = e => {
@@ -59,12 +49,9 @@ const AddAvatar = (props) => {
         const reader = previevFiles(file)
         reader.onloadend = () => {
             const src = reader.result
-
             setPrevUrl(src)
             setIsFile(true)
         }
-
-
     }
     const handleClick = e => {
         handleDroppedFiles(droppedFile).then(res => {

@@ -19,7 +19,6 @@ const Welcome = (props) => {
                     Pracując z bazą danych wykorzystywałem <a href="https://mongoosejs.com/">Mongoose</a>. Baza danych została postawiona na <a href="https://www.mongodb.com/cloud/atlas">MongoDB Atlas</a>
                         </p>
                         <div className="card-icon-wrap"><i className="fas fa-database"></i></div>
-
                     </div>
                     <div className="tech-card"><h2 className="card-tittle">React</h2>
                         <p className="card-desc">

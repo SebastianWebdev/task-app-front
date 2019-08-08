@@ -47,10 +47,8 @@ class App extends Component {
     isUserEddited: false,
     isListEddited: false
   };
-
   onSub = async (e) => {
     e.preventDefault()
-
     const { name, email, pass, } = this.state.regValue
     const { rememberMe } = this.state
     if (e.target.id === 'reg') {
@@ -72,7 +70,6 @@ class App extends Component {
         this.setState({
           isRegistrationDone: true
         })
-
       }
       catch (e) {
         console.log(e);
@@ -94,33 +91,24 @@ class App extends Component {
         const loginRes = await customFetch(url, options)
         if (!rememberMe) {
           sessionStorage.setItem('accessToken', loginRes.token)
-
         } else {
           localStorage.setItem('accessToken', loginRes.token)
         }
         const user = loginRes.user
         sessionStorage.setItem('user', JSON.stringify(user))
-
         this.setState({
           isLogin: true,
           loginStatus: '200'
         })
         this.manageData("onSub", user)
         window.history.pushState({}, 'main', '/')
-
       } catch (e) {
-
         if (e.message === '400') {
-
           this.setState({ loginStatus: '400' })
-
         }
       }
-
-
     }
   }
-
   onChange = (e) => {
     const value = e.target.value
     switch (e.target.id) {
@@ -131,9 +119,7 @@ class App extends Component {
             email: prev.regValue.email,
             pass: prev.regValue.pass
           },
-
         }))
-
         break;
       case "reg-mail":
         this.setState(prev => ({
@@ -144,7 +130,6 @@ class App extends Component {
           },
           loginStatus: ""
         }))
-
         break;
       case "reg-pass":
         this.setState(prev => ({
@@ -155,7 +140,6 @@ class App extends Component {
           },
           loginStatus: ""
         }))
-
         break;
       case "rememberMe":
         this.setState(prev => ({
@@ -163,9 +147,7 @@ class App extends Component {
         }))
         break;
       default:
-
     }
-
   }
   componentWillMount() {
     const token = localStorage.getItem('accessToken')
@@ -214,7 +196,6 @@ class App extends Component {
             isload: true
           })
         })
-
       }).catch(e => {
         console.log(e);
       })
@@ -223,7 +204,6 @@ class App extends Component {
         isload: true
       })
     }
-
   }
   setNewAvatarToLocaState = (avatar) => {
     const data = { ...this.state.data }
@@ -231,13 +211,11 @@ class App extends Component {
     this.setState({
       data
     })
-
   }
   manageData = async (where, user = this.state.user) => {
     const token = sessionStorage.accessToken ? sessionStorage.accessToken : localStorage.accessToken
     let userObj = user
     try {
-
       if (typeof user === 'string') {
         userObj = JSON.parse(user)
       }
@@ -255,18 +233,12 @@ class App extends Component {
     } catch (e) {
       console.log(e);
     }
-
-
   }
   stageTaskHandler = (e) => {
-
     const _id = e.currentTarget.parentNode.id
     const listId = e.currentTarget.parentNode.dataset.listid
-
     const listIndex = this.state.data.lists.findIndex(list => list._id === listId)
-
     const taskIndex = this.state.data.lists[listIndex].tasks.findIndex(task => task._id === _id)
-
     const data = { ...this.state.data }
     const modTask = data.lists[listIndex].tasks[taskIndex]
     if (modTask.stage === 1 || modTask.stage === 2) {
@@ -278,17 +250,12 @@ class App extends Component {
     }
     const url = 'https://sebastian-webdev-task-app.herokuapp.com/tasks/'
     updateTask(url, _id, body)
-
   }
   addTaskHandler = (e) => {
     const data = { ...this.state.data }
-
     const listId = e.target.id
-
-
     const listIndex = data.lists.findIndex(list => list._id === listId)
     const owner = this.state.data.user._id
-
     const newTask = createTask(listId, owner)
     data.lists[listIndex].tasks.push(newTask)
     this.setState({ data })
@@ -308,21 +275,15 @@ class App extends Component {
       },
       body: JSON.stringify(body)
     }).then(res => {
-
       const data = { ...this.state.data }
       const taskIndex = data.lists[listIndex].tasks.findIndex(t => t.temp_Id === res.temp_Id)
-
       data.lists[listIndex].tasks[taskIndex]._id = res._id
       data.lists[listIndex].tasks[taskIndex].createdAt = res.createdAt
       data.lists[listIndex].tasks[taskIndex].updatedAt = res.updatedAt
-
       this.setState({
         data
       })
-
-
     })
-
   }
   addListHandler = (e) => {
     const newData = copyData(this.state.data)
@@ -352,13 +313,11 @@ class App extends Component {
       data.lists[listIndex].updatedAt = res.updatedAt
       this.setState({ data })
     })
-
   }
   fullTaskHandler = (e) => {
     const data = { ...this.state.data }
     e.persist()
     if (e.currentTarget.dataset.type === "taskSmall" && e.target.dataset.type !== "move") {
-
       const listId = e.currentTarget.dataset.listid
       const taskId = e.currentTarget.id
       const work = findListAndTask(listId, taskId, data)
@@ -369,7 +328,6 @@ class App extends Component {
           description: work.task.description
         }
       })
-
     } else {
       const data = { ...this.state.data }
       const task = { ...this.state.activeTask }
@@ -381,7 +339,6 @@ class App extends Component {
           }
         }))
       } else if (e.target.name === 'description') {
-
         this.setState(prev => ({
           activeTaskInputs: {
             name: prev.activeTaskInputs.name,
@@ -397,7 +354,6 @@ class App extends Component {
           task.task.name = newValues.name
           task.task.description = newValues.description
           this.setState({ activeTask: { task: {} } })
-
           const body = {
             name: newValues.name,
             description: newValues.description
@@ -424,19 +380,12 @@ class App extends Component {
             }
           }
           customFetch(url, options).then(res => {
-
           })
           data.lists[listIndex].tasks.splice(taskIndex, 1)
           this.setState({ data: data, activeTask: { task: {} } })
-
-
         }
       }
-
     }
-
-
-
   }
   listInputsHandler = (e) => {
     const newData = copyData(this.state.data)
@@ -446,7 +395,6 @@ class App extends Component {
     const newActiveList = copyData(this.state.activeList)
     this.setState({ isListEddited: true })
     if (e.type === "change") {
-
       if (e.target.name === "list-tittle") {
         this.setState(prev => ({
           activeListInputs: {
@@ -454,16 +402,12 @@ class App extends Component {
             description: prev.activeListInputs.description
           }
         }))
-
-
       } else {
-
         this.setState(prev => ({
           activeListInputs: {
             tittle: prev.activeListInputs.tittle,
             description: value
           }
-
         }))
       }
     } else if (e.type === "click") {
@@ -497,20 +441,15 @@ class App extends Component {
 
   }
   setActiveList = e => {
-
     if (e.target.id !== 'delete-list') {
-      // e.preventDefault()
       const activeListName = e.currentTarget.name;
       const activeListId = e.currentTarget.id
-
-
       let activeList = []
       if (validateId(activeListId)) {
         activeList = this.state.data.lists.filter(list => list.temp_id === activeListId * 1)
       } else {
         activeList = this.state.data.lists.filter(list => list._id === activeListId)
       }
-
       const inputs = {
         tittle: activeListName,
         description: activeList[0].description
@@ -522,8 +461,6 @@ class App extends Component {
         activeListInputs: inputs
       })
     }
-
-
   }
   userInputsHandler = e => {
     const type = e.target.dataset.type
@@ -566,10 +503,7 @@ class App extends Component {
       },
       body: JSON.stringify(body)
     }
-    customFetch(url, options).then(res => {
-      // console.log(res);
-
-    }).catch(e => {
+    customFetch(url, options).catch(e => {
       console.log(e);
     })
 
@@ -606,21 +540,13 @@ class App extends Component {
         'Authorization': `Bearer ${sessionStorage.accessToken ? sessionStorage.accessToken : localStorage.accessToken}`
       }
     }
-
     if (window.confirm("Czy na pewno chcesz usunąć listę?")) {
       const data = { ...this.state.data }
       const listIndex = data.lists.findIndex(list => list._id === id)
       data.lists.splice(listIndex, 1)
       this.setState({ data })
-      customFetch(url, options).then(res => {
-        //console.log(res);
-      })
-
-    } else {
-
-
+      customFetch(url, options)
     }
-
   }
   logOutHandler = e => {
     const url = `https://sebastian-webdev-task-app.herokuapp.com/users/logout`
@@ -633,7 +559,6 @@ class App extends Component {
       }
     }
     fetch(url, options).then(res => {
-
       window.history.pushState({}, 'main', '/')
       this.setState({
         isLogin: false,
@@ -646,11 +571,9 @@ class App extends Component {
       })
       sessionStorage.clear()
       localStorage.clear()
-
     }).catch(e => {
       console.log(e);
     })
-
   }
   handlers = {
     stageTaskHandler: this.stageTaskHandler,
@@ -666,7 +589,6 @@ class App extends Component {
     deleteList: this.deleteList,
     logOutHandler: this.logOutHandler
   }
-
   render() {
     const { isRegistrationDone, isReady, data, activeTask, activeTaskInputs, activeListInputs, activeListName, activeList, activeListId, isUserEddited, userInputs, isListEddited, loginStatus, isload } = this.state
     const regValues = this.state.regValue
@@ -684,8 +606,6 @@ class App extends Component {
         <Loading />
       )
     }
-
-
   }
 }
 

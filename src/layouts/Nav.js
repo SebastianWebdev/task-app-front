@@ -4,7 +4,6 @@ import {
     NavLink
 } from '../../node_modules/react-router-dom'
 const Nav = (props) => {
-
     return (
         <nav className=" nav nav1" >
             < div className="logo-wrap" >< h1 className="logo" >Logo</h1>

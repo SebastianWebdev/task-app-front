@@ -8,5 +8,4 @@ const LogOut = (props) => {
         </div>
     );
 }
-
 export default LogOut;

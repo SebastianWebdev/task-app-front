@@ -1,7 +1,6 @@
 import React from 'react'
 const Register = (props) => {
     const data = props.props
-
     return (
         <div className="reg-log-wrapper">
             <h1>Stwórz Konto</h1>

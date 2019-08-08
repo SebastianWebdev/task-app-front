@@ -7,7 +7,6 @@ const User = (props) => {
     const { name, email } = userInputs
     const [isAddAvatar, setIsAddAvatar] = useState(false)
     const [isAvatarFocus, setIsAvatarFocus] = useState(false)
-
     useEffect(() => {
         return handlers.userResetInputs()
     }, [])
@@ -37,12 +36,10 @@ const User = (props) => {
                     <button onClick={btnHandler} className="avatar-settings-btn btn-rec">Zmień avatar</button>
                 </div>
             </div>}
-
             <label className="userLabels" htmlFor='userName'>Nazwa</label>
             <input data-type="name" onChange={handlers.userInputsHandler} id="userName" value={name} className="input-disp input-user input-user_name" type="text" />
             <label className="userLabels" htmlFor='userEmail'>E-mail</label>
             <h1 className="input-disp input-user input-user_email">{email}</h1>
-
             {isUserEddited ? <button onClick={handlers.userSaveHandler} className="user-button-save save-btn"> Zapisz zmiany</button> : null}
         </div>
     );

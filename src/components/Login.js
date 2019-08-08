@@ -1,9 +1,7 @@
 import React from '../../node_modules/react'
-
 const Login = (props) => {
     const data = props.props
     const loginStatus = data.loginStatus
-
     return (
         <div className="reg-log-wrapper">
             <h1>Zaloguj się do konta</h1>

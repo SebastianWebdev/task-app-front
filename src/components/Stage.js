@@ -1,5 +1,4 @@
 import React from 'react'
-
 import TaskFull from '../components/TaskFull'
 import Task from './Task'
 const Stage = (props) => {
@@ -7,7 +6,6 @@ const Stage = (props) => {
     const { handlers } = props
     const stageTasks = tasks ? tasks.filter(task => task.stage === stage) : null
     const map = stageTasks ? stageTasks.map(task => <Task key={task._id} listName={listName} listId={listId} task={task} stageHandler={stageHandler} fullTaskHandler={handlers.fullTaskHandler} />) : null
-
     return (
         <div className="stag1 tasks-box">
             <h2 className="stage-name">{stageName}</h2>{map}
