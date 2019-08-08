@@ -11,10 +11,8 @@ const createHTMLElement = (element = '', properties = {}) => {
         })
 
     }
-
     return htmlElement
 }
-
 const myAlert = (message = "", type = true) => {
     let result = false
     const eventFunction = e => {
@@ -33,12 +31,10 @@ const myAlert = (message = "", type = true) => {
     buttonOk.innerHTML = 'OK'
     buttonYes.innerHTML = 'Tak'
     buttonNo.innerHTML = 'Nie'
-
     wrapper.appendChild(messageElement)
     if (type) {
         buttonOk.addEventListener('click', eventFunction)
         wrapper.appendChild(buttonOk)
-
     } else {
         buttonYes.addEventListener('click', eventFunction)
         buttonNo.addEventListener('click', eventFunction)

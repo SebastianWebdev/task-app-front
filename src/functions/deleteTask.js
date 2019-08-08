@@ -1,9 +1,6 @@
 import { customFetch } from '../functions/fetch'
 const deleteTask = async (id) => {
-
     const url = `https://sebastian-webdev-task-app.herokuapp.com/tasks/${id}`
-
-
     const options = {
         method: 'DELETE',
         headers: {
@@ -11,7 +8,6 @@ const deleteTask = async (id) => {
             "Content-Type": "application/json",
             'Authorization': ""
         },
-
     }
     const token = sessionStorage.accessToken ? sessionStorage.accessToken : localStorage.accessToken
     const authOption = 'Bearer ' + token
@@ -20,15 +16,9 @@ const deleteTask = async (id) => {
     }
     try {
         await customFetch(url, options)
-
-
     } catch (e) {
-
-
         console.log(e);
-
     }
-
 }
 export {
     deleteTask

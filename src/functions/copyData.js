@@ -4,4 +4,4 @@ const copyData = input => {
     return secondStage
 }
 export default copyData
-// This function makes deep copy of serialized data, like objects and arrays. Do not use, if your object contains function.
+// This function makes deep copy of serialized data, like objects and arrays.

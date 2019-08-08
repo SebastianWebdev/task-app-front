@@ -1,5 +1,4 @@
 import { customFetch } from './fetch'
-
 const updateDB = (url, body) => {
     const token = localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken')
     const options = {
@@ -12,7 +11,6 @@ const updateDB = (url, body) => {
         body: JSON.stringify(body)
     }
     customFetch(url, options).then(res => {
-
     }).catch(e => {
         console.log(e);
     })

@@ -1,6 +1,4 @@
-import {
-    customFetch
-} from '../functions/fetch'
+import { customFetch } from '../functions/fetch'
 const updateTask = async (url, id, body) => {
     const finalUrl = url + id
     const options = {
@@ -19,17 +17,10 @@ const updateTask = async (url, id, body) => {
     }
     try {
         const fetch = await customFetch(finalUrl, options)
-
         return fetch
-
     } catch (e) {
-
         console.log(e);
         return e
-
     }
-
 }
-export {
-    updateTask
-}
+export { updateTask }

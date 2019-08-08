@@ -1,4 +1,3 @@
-// Create New list of tasks
 const createList = owner => {
     const createdAt = new Date().toISOString()
     const tempId = new Date().getTime()

@@ -6,8 +6,5 @@ const transformData = (tasks, lists) => {
     })
     data.lists = lists
     return data
-
 }
-export {
-    transformData
-}
+export { transformData }

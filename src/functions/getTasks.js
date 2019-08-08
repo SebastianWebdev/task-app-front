@@ -1,6 +1,4 @@
-import {
-    customFetch
-} from './fetch'
+import { customFetch } from './fetch'
 const getTasks = async (token) => {
     const url = 'https://sebastian-webdev-task-app.herokuapp.com/tasks/'
     const options = {
@@ -10,7 +8,6 @@ const getTasks = async (token) => {
             "Content-Type": "application/json",
             'Authorization': `Bearer ${token}`
         }
-
     }
     try {
         const tasks = await customFetch(url, options)
@@ -18,9 +15,5 @@ const getTasks = async (token) => {
     } catch (e) {
         console.log(e);
     }
-
 }
-
-export {
-    getTasks
-}
+export { getTasks }

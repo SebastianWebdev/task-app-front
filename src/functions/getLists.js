@@ -10,7 +10,6 @@ const getLists = async (token) => {
             "Content-Type": "application/json",
             'Authorization': `Bearer ${token}`
         }
-
     }
     try {
         const lists = await customFetch(url, options)
@@ -18,10 +17,5 @@ const getLists = async (token) => {
     } catch (e) {
         console.log(e);
     }
-
 }
-
-
-export {
-    getLists
-}
+export { getLists }

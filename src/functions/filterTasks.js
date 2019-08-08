@@ -12,7 +12,6 @@ const taskFilter = (tasks = [], cond) => {
     } else {
         return filteredTasks
     }
-
 }
 export {
     taskFilter
