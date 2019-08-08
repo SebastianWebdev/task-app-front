@@ -1,5 +1,6 @@
 import React from '../../node_modules/react'
 import { Link } from '../../node_modules/react-router-dom'
+// This component is a simple message after user registration
 const NextReg = (props) => {
     return (
         <div className="reg-log-wrapper">

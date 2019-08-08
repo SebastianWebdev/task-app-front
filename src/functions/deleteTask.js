@@ -2,7 +2,7 @@ import { customFetch } from '../functions/fetch'
 const deleteTask = async (id) => {
 
     const url = `https://sebastian-webdev-task-app.herokuapp.com/tasks/${id}`
-    console.log(url);
+
 
     const options = {
         method: 'DELETE',
@@ -19,7 +19,7 @@ const deleteTask = async (id) => {
         options.headers.Authorization = authOption
     }
     try {
-        const fetch = await customFetch(url, options)
+        await customFetch(url, options)
 
 
     } catch (e) {

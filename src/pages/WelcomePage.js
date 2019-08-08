@@ -11,13 +11,14 @@ class HomePage extends Component {
     render() {
         const { regValues, isRegistrationDone, loginStatus } = this.props
         return (
-            <Router>
+            <Router basename={process.env.PUBLIC_URL}>
                 <>
                     <Nav isMain={true} />
                     <Switch>
-                        <Route exact path="/" component={Welcome} />
+
                         <Route path="/login" render={(props) => <LoginPage {...props} regValues={regValues} handler={this.props.onChange} onSub={this.props.onSub} isRegistrationDone={isRegistrationDone} loginStatus={loginStatus} />} />
                         <Route path="/register" render={(props) => <RegisterPage {...props} regValues={regValues} handler={this.props.onChange} onSub={this.props.onSub} isRegistrationDone={isRegistrationDone} />} />
+                        <Route path="/" component={Welcome} />
                     </Switch>
                 </>
             </Router>

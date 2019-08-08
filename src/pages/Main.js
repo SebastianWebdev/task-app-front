@@ -17,7 +17,7 @@ class Main extends Component {
 
 
         return (
-            <Router>
+            <Router basename={process.env.PUBLIC_URL}>
                 {isReady ?
                     <div className="main-wraper">
                         <NavMain lists={data.lists} avatar={data.user.avatar} userName={data.user.name} handler={handlers.setActiveList} addListHandler={handlers.addListHandler} deleteList={handlers.deleteList} />

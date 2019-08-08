@@ -24,7 +24,7 @@ const Welcome = (props) => {
                     <div className="tech-card"><h2 className="card-tittle">React</h2>
                         <p className="card-desc">
                             Cały front Aplikacji powstał przy użyciu biblioteki React.js.
-                            Front został stworzony jako Single Page Application, oraz zgodnie z wytycznymi responsive web design.
+                            Front został stworzony jako Single Page Application.
                 </p>
                         <div className="card-icon-wrap"><i className="fab fa-react"></i></div></div>
                     <div className="tech-card"><h2 className="card-tittle">Node.js</h2>

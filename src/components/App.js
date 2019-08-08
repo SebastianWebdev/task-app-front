@@ -53,7 +53,6 @@ class App extends Component {
 
     const { name, email, pass, } = this.state.regValue
     const { rememberMe } = this.state
-
     if (e.target.id === 'reg') {
       const body = {
         name,
@@ -70,7 +69,6 @@ class App extends Component {
       const url = "https://sebastian-webdev-task-app.herokuapp.com/users";
       try {
         await customFetch(url, options)
-
         this.setState({
           isRegistrationDone: true
         })
@@ -78,7 +76,6 @@ class App extends Component {
       }
       catch (e) {
         console.log(e);
-
       }
     } else if (e.target.id === "login") {
       const body = {
@@ -102,8 +99,6 @@ class App extends Component {
           localStorage.setItem('accessToken', loginRes.token)
         }
         const user = loginRes.user
-
-
         sessionStorage.setItem('user', JSON.stringify(user))
 
         this.setState({
@@ -173,11 +168,6 @@ class App extends Component {
 
   }
   componentWillMount() {
-    /*window.addEventListener('beforeunload', (e) => {
-      window.history.pushState({}, 'main', '/')
-      e.returnValue = '';
-    })*/
-
     const token = localStorage.getItem('accessToken')
     const user = sessionStorage.getItem('user')
     if (user) {
@@ -216,7 +206,6 @@ class App extends Component {
         })
         const user2 = sessionStorage.getItem('user')
         this.manageData("mount", user2).then(res => {
-
           this.setState({
             userInputs: {
               name: res.user.name,
@@ -252,8 +241,6 @@ class App extends Component {
       if (typeof user === 'string') {
         userObj = JSON.parse(user)
       }
-
-
       const userAvatar = `data:image/jpg;base64,${userObj.avatar}`
       userObj.avatar = userAvatar
       const tasks = await getTasks(token)
@@ -264,7 +251,6 @@ class App extends Component {
         isReady: true,
         data
       })
-
       return data
     } catch (e) {
       console.log(e);
@@ -291,15 +277,14 @@ class App extends Component {
       stage: data.lists[listIndex].tasks[taskIndex].stage
     }
     const url = 'https://sebastian-webdev-task-app.herokuapp.com/tasks/'
-    updateTask(url, _id, body).then(res => { /*console.log(res) */ }
-    )
+    updateTask(url, _id, body)
 
   }
   addTaskHandler = (e) => {
     const data = { ...this.state.data }
 
     const listId = e.target.id
-    // const listId = data.lists.filter(list => list.tittle === listTittle)[0]._id
+
 
     const listIndex = data.lists.findIndex(list => list._id === listId)
     const owner = this.state.data.user._id
@@ -419,7 +404,7 @@ class App extends Component {
           }
           const id = task.task._id
           const url = 'https://sebastian-webdev-task-app.herokuapp.com/tasks/'
-          updateTask(url, id, body).then(res => { /*console.log(res)*/ })
+          updateTask(url, id, body)
         }
       } else if (e.currentTarget.dataset.name === "close") {
         this.setState({ activeTask: { task: {} } })
@@ -680,17 +665,12 @@ class App extends Component {
     setNewAvatarToLocaState: this.setNewAvatarToLocaState,
     deleteList: this.deleteList,
     logOutHandler: this.logOutHandler
-
   }
 
   render() {
-
-
     const { isRegistrationDone, isReady, data, activeTask, activeTaskInputs, activeListInputs, activeListName, activeList, activeListId, isUserEddited, userInputs, isListEddited, loginStatus, isload } = this.state
     const regValues = this.state.regValue
     const token = localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken')
-
-
     if (isload) {
       return (
         <div className="app-wrapper">

@@ -16,16 +16,13 @@ const User = (props) => {
     }
     const handleCloseAddAvatar = () => {
         setIsAddAvatar(false)
-
     }
     const mouseHandler = e => {
-
         if (e.type === "mouseenter") {
             setIsAvatarFocus(true)
         } else {
             setIsAvatarFocus(false)
         }
-
     }
     const visible = {
         visibility: 'visible'
@@ -45,9 +42,6 @@ const User = (props) => {
             <input data-type="name" onChange={handlers.userInputsHandler} id="userName" value={name} className="input-disp input-user input-user_name" type="text" />
             <label className="userLabels" htmlFor='userEmail'>E-mail</label>
             <h1 className="input-disp input-user input-user_email">{email}</h1>
-
-
-
 
             {isUserEddited ? <button onClick={handlers.userSaveHandler} className="user-button-save save-btn"> Zapisz zmiany</button> : null}
         </div>
