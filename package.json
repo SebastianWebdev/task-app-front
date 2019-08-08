@@ -11,6 +11,7 @@
     "react-scripts": "2.1.8",
     "simplebar-react": "^1.0.0-alpha.3"
   },
+
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
